@@ -8,7 +8,7 @@ data = r.json()
 
 class Restaurants:
     def __init__(self,id,name,uuid,cloudinary):
-        self.id=f'https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.5123388&lng=80.2329&restaurantId={id}&submitAction=ENTER'
+        self.id=id
 
         self.name=name
         self.uuid=uuid
@@ -27,6 +27,10 @@ for item in data['data']['cards']:
 
 # for rest in rest_list:
 #     print(rest.id, rest.name,rest.cloudinary)
+
+
+
+
 
 
 
