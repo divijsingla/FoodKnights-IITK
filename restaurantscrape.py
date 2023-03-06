@@ -6,7 +6,7 @@ class Dish:
         self.id=id
         self.name=name
         self.description=description
-        self.imageId=imageId
+        self.imageId=f'https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/{imageId}'
         self.inStock=inStock
         self.veg=veg
         self.price=int(price)/100
@@ -14,23 +14,26 @@ class Dish:
 
 
 def restaurant_details(id):
-    my_restaurant=f'https://www.swiggy.com/mapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.5123388&lng=80.2329&restaurantId={id}&submitAction=ENTER'
+    my_restaurant=f'https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.5123388&lng=80.2329&restaurantId={id}&submitAction=ENTER'
     print(my_restaurant)
     r= requests.get(my_restaurant)
     data = r.json()
 
     restaurant_array = data['data']['cards'][-1]['groupedCard']['cardGroupMap']['REGULAR'] ['cards']
 
-    while(restaurant_array[1]['card']['card']['title']!="Recommended"):
-        restaurant_array==restaurant_array[2:]
-    else: 
+    # print(restaurant_array[1]['card']['card']['title'])
+    while(restaurant_array[1]['card']['card']['title']=="Top Picks"):
         restaurant_array=restaurant_array[1:]
+    else: 
+        restaurant_array=restaurant_array[0:]
 
     dish_list = []
 
     for category in restaurant_array:
+        
         data = category['card']['card']
         category_title = data.get('title')
+        print(category_title,data.get('@type'))
         dishes= data.get('itemCards')
         if dishes is not None and len(dishes) > 0:
             for dish in dishes:
