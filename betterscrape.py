@@ -18,10 +18,10 @@ rest_list=[]
 
 for item in data['data']['cards']:
     main = item['data']['data']
-    id = main['id']
-    name=main['name']
-    uuid=main['uuid']
-    cloudinaryImageId=main['cloudinaryImageId']
+    id = main.get('id')
+    name=main.get('name')
+    uuid=main.get('uuid')
+    cloudinaryImageId=main.get('cloudinaryImageId')
     rest_list.append(Restaurants(id,name,uuid,cloudinaryImageId))
 
 

@@ -8,7 +8,15 @@
 
 // 
 
-
+let yourcart=document.getElementById('yourcart')
+yourcart.addEventListener('mouseover',()=>{
+    console.log("hi")
+    yourcart.classList.add('active')
+})
+yourcart.addEventListener('mouseout',()=>{
+    console.log("hi")
+    yourcart.classList.remove('active')
+})
   
 
 
@@ -57,4 +65,6 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 
 });
+
+
 

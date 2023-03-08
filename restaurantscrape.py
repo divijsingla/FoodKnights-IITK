@@ -11,6 +11,27 @@ class Dish:
         self.veg=veg
         self.price=int(price)/100
 
+class Restinfo:
+    def __init__(self,name,rating,people,time):
+        self.name=name
+        self.rating=rating
+        self.people=people
+        self.time=time
+
+def restaurant_info(id):
+    my_restaurant=f'https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.5123388&lng=80.2329&restaurantId={id}&submitAction=ENTER'
+    r= requests.get(my_restaurant)
+    data = r.json()
+    data=data['data']['cards'][0]['card']['card']['info']
+    name =data.get('name')
+    rating = data.get('avgRating')
+    people = data.get('totalRatingsString')
+    time = int(data.get('sla').get('maxDeliveryTime'))+10
+    return Restinfo(name,rating,people,time)
+    
+    
+    
+    
 
 
 def restaurant_details(id):
@@ -44,9 +65,10 @@ def restaurant_details(id):
                 imageId = dishinfo.get('imageId')
                 inStock = dishinfo.get('inStock')
                 price = dishinfo.get('price')
+                if(price==None): price=dishinfo.get('defaultPrice')
                 dishaddons = dishinfo.get('addons')
                 # write here
-                veg=dishinfo['itemAttribute']['vegClassifier']
+                veg=dishinfo.get('itemAttribute').get('vegClassifier')
                 # ribbon=dishinfo['itemAttribute']['ribbon']
                 dish_list.append(Dish(id,name,description,imageId,inStock,price,veg))
                 print(id,name,description,imageId,inStock,price,veg)
