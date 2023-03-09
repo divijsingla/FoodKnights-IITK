@@ -68,3 +68,41 @@ window.addEventListener('DOMContentLoaded', event => {
 
 
 
+const searchInput = document.getElementById('search');
+
+// Set a variable to hold the timeout ID for the debounce function
+let timeoutId = null;
+let reslis=document.getElementById('reslis')
+// Define a function to handle the search query
+function handleSearchQuery() {
+  // Get the current search query value
+  const searchQuery = searchInput.value;
+  
+  // Perform the search query here
+  // ...
+  const myData = { key: searchQuery };
+  const myDataString = JSON.stringify(myData);
+
+  // create XHR object and send request
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', '/searchquery');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      
+      reslis.innerHTML=xhr.responseText
+      console.log(xhr.responseText);
+    }
+  };
+  xhr.send(myDataString);
+  console.log(`Search query: ${searchQuery}`);
+}
+
+// Add event listener to track user input on the search input field
+searchInput.addEventListener('input', function(event) {
+  // Clear the previous timeout
+  clearTimeout(timeoutId);
+
+  // Set a new timeout for 500 milliseconds
+  timeoutId = setTimeout(handleSearchQuery, 500);
+});

@@ -39,10 +39,11 @@ total.innerText='Rs. '+ totalprice.toFixed(2);
 
 let final = document.getElementById('checkout')
 final.addEventListener('click',()=>{
+  console.log('Hiii')
   var data = {};
 for (var i = 0; i < localStorage.length; i++) {
     var key = localStorage.key(i);
-    if( !(key.charAt(0)<='9' && key.charAt(0)>='0') ) continue;
+    if(key!='restid' && !(key.charAt(0)<='9' && key.charAt(0)>='0') ) continue;
     var value = localStorage.getItem(key);
     data[key] = value;
 }

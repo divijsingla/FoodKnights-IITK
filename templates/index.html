@@ -65,27 +65,47 @@
                 </div>
                 <!-- Portfolio Grid Items-->
                 <div class="row justify-content-center">
-                    <!-- Portfolio Item 1
-                    <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
-                            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                            </div>
-                            <img class="img-fluid" src="assets/img/portfolio/cabin.png" alt="..." />
-                        </div>
-                    </div> -->
-                    {% for rest in restlist %}
-                <div class="col-md-6 col-lg-4 mb-5 text" onclick= "window.location.href='restaurant/{{rest.id}} '"  >
+                    <input type="text" id="search" class="btn my-5" data-toggle="modal" data-target="#exampleModal" placeholder="Search your favourite Restaurants or Dishes" autocomplete="off">
+                   
 
-                    <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal"  onclick= {{rest.id}}>
-                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                        <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                    </div>
-                    <img class="img-fluid" src= {{ rest.cloudinary }} alt="..." />
-                    {{rest.name}}
-                </div>
-                </div>
-            {% endfor %}
+    
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="reslis" class="row justify-content-center">
+
+      
+      {% for rest in restlist %}
+      <div class="col-md-6 col-lg-4 mb-5 text" onclick= "window.location.href='restaurant/{{rest.id}} '"  >
+        
+        <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal"  onclick= {{rest.id}}>
+            <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+            </div>
+            <img class="img-fluid" src= {{ rest.cloudinary }} alt="..." />
+            {{rest.name}}
+        </div>
+    </div>
+    {% endfor %}
+</div>
                     
                     
                 </div>

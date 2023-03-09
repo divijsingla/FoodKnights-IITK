@@ -3058,7 +3058,9 @@ textarea.form-control-lg {
   background-color: #1abc9c;
   border-color: #1abc9c;
 }
-
+#search{
+  border-color: #15967d;
+}
 .btn-secondary {
   color: #fff;
   background-color: #2c3e50;
