@@ -4629,6 +4629,9 @@ textarea.form-control-lg {
   margin-bottom: 0.75rem;
 }
 
+.vegicon{
+  width: 1.2rem
+}
 .small{
   font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.5) !important; 

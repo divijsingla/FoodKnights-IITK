@@ -5,6 +5,7 @@ from searchbar import function
 from restaurantscrape import restaurant_details,restaurant_info
 from sqlalchemy import create_engine, Column, Integer, String, ARRAY
 from sqlalchemy.orm import sessionmaker, declarative_base
+from variants import variants,variants2,addons
 
 import json
 
@@ -40,10 +41,41 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 orderid=0
+@app.route('/restaurant/<int:restaurantid>/<int:dishid>/<int:opt1>/<int:opt2>/addons')
+def addonday(restaurantid,dishid,opt1,opt2):
+    addonlist = addons(restaurantid,dishid,opt1,opt2) 
+    print(addonlist)
+    return render_template('addons.html',addonlist=addonlist)
+
+@app.route('/restaurant/<int:restaurantid>/<int:dishid>/<int:opt2>/addons')
+def addonday2(restaurantid,dishid,opt2):
+    addonlist = addons(restaurantid,dishid,0,opt2) 
+    print(addonlist)
+    return render_template('addons.html',addonlist=addonlist)
+    
+
 @app.route('/')
 def home():
-    orderid=1
     return render_template('index.html',restlist=rest_list)
+
+@app.route('/restaurant/<int:restaurantid>/<int:dishid>/<int:num>')
+def dishvariants(restaurantid,dishid,num):
+    thevariants=variants(restaurantid,dishid,num) 
+    if(thevariants==-1):return restaurant_page(restaurantid)
+    else:
+        return render_template('variants.html',variants=thevariants)
+
+@app.route('/restaurant/<int:restaurantid>/<int:dishid>/<int:num>/<int:opt1>')
+def dishvariants2(restaurantid,dishid,num,opt1):
+    thevariants=variants2(restaurantid,dishid,num,opt1) 
+    if(thevariants==-1):return restaurant_page(restaurantid)
+    else:
+        return render_template('variants.html',variants=thevariants)
+
+    
+    
+# @app.route('/restaurant/${restid}/${dishid}/${opt1}/${selectedOption}/addons')
+
 
 @app.route('/searchquery', methods=['POST'])
 def search():
@@ -52,7 +84,6 @@ def search():
     query=data['key']
     if(query=='') : return render_template('templater.html',restlist=rest_list)
     return render_template('templater.html',restlist=function(query))
-    return 'success'
 
 @app.route('/cart')
 def cart():
@@ -63,6 +94,8 @@ def restaurant_page(restaurant_id):
     # Generate product page for the given product ID
     return render_template('restaurant.html', dish_list=restaurant_details(restaurant_id),restinfo=restaurant_info(restaurant_id),restid=restaurant_id)
 
+
+        
 
 @app.route('/save_data', methods=['POST'])
 def save_data():

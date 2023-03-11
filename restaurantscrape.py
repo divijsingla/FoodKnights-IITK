@@ -2,7 +2,7 @@ import requests
 import array
 
 class Dish:
-    def __init__(self,id,name,description,imageId,inStock,price,veg):
+    def __init__(self,id,name,description,imageId,inStock,price,veg,addons,variants):
         self.id=id
         self.name=name
         self.description=description
@@ -10,6 +10,8 @@ class Dish:
         self.inStock=inStock
         self.veg=veg
         self.price=int(price)/100
+        self.addons=addons
+        self.variants=variants
 
 class Restinfo:
     def __init__(self,name,rating,people,time):
@@ -36,7 +38,7 @@ def restaurant_info(id):
 
 def restaurant_details(id):
     my_restaurant=f'https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.5123388&lng=80.2329&restaurantId={id}&submitAction=ENTER'
-    print(my_restaurant)
+    # print(my_restaurant)
     r= requests.get(my_restaurant)
     data = r.json()
 
@@ -54,7 +56,7 @@ def restaurant_details(id):
         
         data = category['card']['card']
         category_title = data.get('title')
-        print(category_title,data.get('@type'))
+        # print(category_title,data.get('@type'))
         dishes= data.get('itemCards')
         if dishes is not None and len(dishes) > 0:
             for dish in dishes:
@@ -65,19 +67,56 @@ def restaurant_details(id):
                 imageId = dishinfo.get('imageId')
                 inStock = dishinfo.get('inStock')
                 price = dishinfo.get('price')
+                addons=dishinfo.get('addons')
+                variants=dishinfo.get('variantsV2')
+                if(variants==None): variants=dishinfo.get('variants')
+                if addons == None:
+                    addons=0
+                else : addons=len(addons)    
+                if variants == None or variants.get('variantGroups')==None:
+                    variants=0
+                else : 
+                    variants=len(variants.get('variantGroups'))
+                
                 if(price==None): price=dishinfo.get('defaultPrice')
-                dishaddons = dishinfo.get('addons')
+                
                 # write here
                 veg=dishinfo.get('itemAttribute').get('vegClassifier')
                 # ribbon=dishinfo['itemAttribute']['ribbon']
-                dish_list.append(Dish(id,name,description,imageId,inStock,price,veg))
-                print(id,name,description,imageId,inStock,price,veg)
+                dish_list.append(Dish(id,name,description,imageId,inStock,price,veg,addons,variants))
+                # print(id,name,description,imageId,inStock,price,veg)
 
 
     return dish_list
 
+def getdish(restid,dishid):
+    print(dishid)
+    my_restaurant=f'https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.5123388&lng=80.2329&restaurantId={restid}&submitAction=ENTER'
+    r= requests.get(my_restaurant)
+    data = r.json()
 
+    restaurant_array = data['data']['cards'][-1]['groupedCard']['cardGroupMap']['REGULAR'] ['cards']
+
+    # print(restaurant_array[1]['card']['card']['title'])
+    while(restaurant_array[1]['card']['card']['title']=="Top Picks"):
+        restaurant_array=restaurant_array[1:]
+    else: 
+        restaurant_array=restaurant_array[0:]
+
+    for category in restaurant_array:
         
+        data = category['card']['card']
+        dishes= data.get('itemCards')
+        if dishes is not None and len(dishes) > 0:
+            for dish in dishes:
+                dishinfo = dish['card']['info']
+                dish_id = dishinfo.get('id')
+                # print(dish_id)
+                if(int(dish_id)==int(dishid)): 
+                    print("hi")
+                    return  dishinfo
+                
+    return {}
 
 
 
