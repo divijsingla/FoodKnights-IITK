@@ -14,11 +14,12 @@ class Dish:
         self.variants=variants
 
 class Restinfo:
-    def __init__(self,name,rating,people,time):
+    def __init__(self,name,rating,people,time,fee):
         self.name=name
         self.rating=rating
         self.people=people
         self.time=time
+        self.fee=fee
 
 def restaurant_info(id):
     my_restaurant=f'https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.5123388&lng=80.2329&restaurantId={id}&submitAction=ENTER'
@@ -29,7 +30,14 @@ def restaurant_info(id):
     rating = data.get('avgRating')
     people = data.get('totalRatingsString')
     time = int(data.get('sla').get('maxDeliveryTime'))+10
-    return Restinfo(name,rating,people,time)
+    fee=0
+    feedet=data.get('feeDetails')
+    if(feedet):
+        if(feedet.get('totalFees')): fee=int(feedet.get('totalFees'))/100
+        if(feedet.get('totalFee')): fee=int(feedet.get('totalFee'))/100
+        
+    print(fee)
+    return Restinfo(name,rating,people,time,fee)
     
     
     
@@ -43,7 +51,9 @@ def restaurant_details(id):
     data = r.json()
 
     restaurant_array = data['data']['cards'][-1]['groupedCard']['cardGroupMap']['REGULAR'] ['cards']
-
+    
+    
+    
     # print(restaurant_array[1]['card']['card']['title'])
     while(restaurant_array[1]['card']['card']['title']=="Top Picks"):
         restaurant_array=restaurant_array[1:]
@@ -77,11 +87,13 @@ def restaurant_details(id):
                     variants=0
                 else : 
                     variants=len(variants.get('variantGroups'))
-                
+
                 if(price==None): price=dishinfo.get('defaultPrice')
                 
                 # write here
-                veg=dishinfo.get('itemAttribute').get('vegClassifier')
+                veg='VEG'
+                if(dishinfo.get('itemAttribute')!=None):
+                    veg=dishinfo.get('itemAttribute').get('vegClassifier')
                 # ribbon=dishinfo['itemAttribute']['ribbon']
                 dish_list.append(Dish(id,name,description,imageId,inStock,price,veg,addons,variants))
                 # print(id,name,description,imageId,inStock,price,veg)
@@ -98,7 +110,7 @@ def getdish(restid,dishid):
     restaurant_array = data['data']['cards'][-1]['groupedCard']['cardGroupMap']['REGULAR'] ['cards']
 
     # print(restaurant_array[1]['card']['card']['title'])
-    while(restaurant_array[1]['card']['card']['title']=="Top Picks"):
+    while(restaurant_array[1]['card']['card'].get('title')=="Top Picks"):
         restaurant_array=restaurant_array[1:]
     else: 
         restaurant_array=restaurant_array[0:]

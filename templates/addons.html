@@ -9,26 +9,33 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <ul class="list-group list-group-light">
+    {% set length = addonlist|length %}
+    <ul class="list-group list-group-light" data-length="{{length}}" id="addons">
           
           {% for graddon in addonlist %}
-          {{graddon.grpName}}
-          {% for addon in graddon.addons %}
-          <li class="list-group-item">
-            <input class="form-check-input me-1" type="checkbox" name="" value="{{addon.name}}" aria-label="...">
-            {{addon.name}}  
-            {% if addon.get('price')!=None %}
+          
+          {% if graddon.addons|length >0 %}
+          <div class="groups">
+              {{graddon.grpName}}
+              {% for addon in graddon.addons %}
+              
+              <li class="list-group-item">
+                  <input class="form-check-input me-1" type="checkbox" name="" value="{{addon.name}}" onclick = "limitCheckboxes('{{graddon.grpName}}')" data-min="{{graddon.minAddons}}" data-max="{{graddon.maxAddons}}" data-grp="{{graddon.grpName}}" aria-label="..." data-price="{{addon.price}}">
+                  {{addon.name}}  
+                  {% if addon.get('price')!=None %}
                   Rs.{{addon['price']}}
-            {% endif %}
-          </li>
-          {% endfor %}
+                  {% endif %}
+                </li>
+                {% endfor %}
+            </div>
+                {% endif %}
           {% endfor %}
           
-          <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="submit" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" onclick="submit()"> Finish </button>
-
-
-
-    </ul>
+          
+          
+          
+        </ul>
+        <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="submit" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" onclick="submit2()"> Finish </button>
     
     <script src="{{ url_for('static', filename='js/addons.js') }}"></script>
 </body>

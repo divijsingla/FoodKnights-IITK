@@ -16,7 +16,13 @@
           
           {% for variation in variants.variations %}
           <li class="list-group-item">
-            <input class="form-check-input me-1" type="radio" name="same" value="{{variation.id}}" aria-label="..."  checked/>
+            {% set price = variation.totprice %}
+            {% if price %}
+            {% else %}
+            {% set price = 0 %}
+            {% endif %}
+
+            <input class="form-check-input me-1" type="radio" name="same" value="{{variation.name}}" data-price="{{price}}" aria-label="..." data-optnum="{{variation.id}}" checked/>
             {{variation.name}}  
             {% if variation.get('price')!=None %}
                   Rs.{{variation['price']}}
@@ -29,7 +35,7 @@
 
 
     </ul>
-    
     <script src="{{ url_for('static', filename='js/variants.js') }}"></script>
 </body>
+    
 </html>

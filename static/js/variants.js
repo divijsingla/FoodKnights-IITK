@@ -5,6 +5,11 @@ let giveprompt=()=>{
 
 const submit = ()=>{
     const selectedOption = document.querySelector('input[name="same"]:checked').value;
+    const optnum = document.querySelector('input[name="same"]:checked').dataset.optnum;
+    console.log(selectedOption,optnum)
+    let price = document.querySelector('input[name="same"]:checked').dataset.price;
+    
+    console.log(price)
     const url = window.location.href;
     const segments = url.split('/');
     const stringsBetweenSlashes = [];
@@ -20,35 +25,28 @@ const submit = ()=>{
     let dep= parseInt(stringsBetweenSlashes[4])-1
     if(dep==0){
         // variants are done.
-
-        let opt1=parseInt(stringsBetweenSlashes[5])
-        let item={
-            'itemId' : dishid,
-            'itemName' : "",
-            'itemPrice' : 0,
-            'opt1':opt1,
-            'opt2':selectedOption
-        }
-        let status=-1
-    if(localStorage.getItem("restid")!=null){
-      if(localStorage.getItem("restid")!=restid) {status = giveprompt();}
-    }
-    console.log(status)
-    if(status==-1){
-      localStorage.setItem("restid",restid)
-      localStorage.setItem(`temp`, JSON.stringify(item));
+      let obj  = JSON.parse(localStorage.getItem('temp'));
+      obj.opt2.push(selectedOption)
+      obj.itemPrice[0] = parseInt(price)/100
+    //   obj.price.push()
+      localStorage.setItem('temp',JSON.stringify(obj))
+      if(obj.opt1.length==0){
+        obj.opt1.push('None')
+        window.location.href = `/restaurant/${restid}/${dishid}/${selectedOption}/addons`
       }
-    else if(status==1){
-    localStorage.clear();
-    localStorage.setItem("restid",restid)
-    localStorage.setItem(`temp`, JSON.stringify(item));
+      else{
+        let opt1 = obj.opt1[0]
+        window.location.href = `/restaurant/${restid}/${dishid}/${opt1}/${selectedOption}/addons`
+      }
     }
     
-    if(!isNaN(opt1)) {
-        window.location.href = `/restaurant/${restid}/${dishid}/${opt1}/${selectedOption}/addons`}
-    else window.location.href = `/restaurant/${restid}/${dishid}/${selectedOption}/addons`
+    else {
+        let obj= JSON.parse(localStorage.getItem('temp'))
+        obj.opt1.push(selectedOption)
+        localStorage.setItem('temp',JSON.stringify(obj))
+        
+
+        window.location.href = `/restaurant/${restid}/${dishid}/${dep}/${selectedOption}`
     }
-    
-    else window.location.href = `/restaurant/${restid}/${dishid}/${dep}/${selectedOption}`
     
 }

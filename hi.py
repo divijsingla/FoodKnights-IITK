@@ -13,15 +13,7 @@ def variants(restid,dishid,num):
     
     else :
         groups=variants.get('variantGroups')
-        pricingmodels=variants.get('pricingModels')
-        grpcopy = groups[len(groups)-num]
-        for variation in grpcopy.get('variations'):
-            varid = variation.get('id')
-            for pricingmodel in pricingmodels:
-                if(pricingmodel.get('variations')[0].get('variationId')==varid):
-                    variation['totprice']=pricingmodel.get('price')
-        # if(len(groups)<=num): return -1
-        return grpcopy
+        
         # if(len(groups)<=num): return -1
         return groups[len(groups)-num]
         
@@ -32,6 +24,7 @@ def variants2(restid,dishid,num,opt1):
         variants=dishobj.get('variants')
     if(variants==None or len(variants)==0):
         return -1
+    
     else :
         groups=variants.get('variantGroups')
         if(len(groups)<=num): return -1
@@ -44,7 +37,6 @@ def variants2(restid,dishid,num,opt1):
                  if(int(variations[0].get('variationId'))==int(opt1)):
                     # print(int(variations[1].get('variationId')))
                     nextlisttoshow.append({'id':int(variations[1].get('variationId')),'price':int(pricingmodel.get('price'))})
-                
                     
                     
             group=groups[1]
@@ -70,7 +62,6 @@ def addons(restid,dishid,opt1,opt2):
     dishobj=getdish(restid,dishid)
     variants = dishobj.get('variantsV2')
     addons = dishobj.get('addons')
-    # print(len(addons))
     addonscodelist=[]
     if(variants==None or len(variants)==0):
         variants=dishobj.get('variants')
@@ -95,6 +86,7 @@ def addons(restid,dishid,opt1,opt2):
                                 grpname=addon.get('groupName')
                                 maxaddons=addon.get('maxAddons')
                                 minaddons=addon.get('minAddons')
+                                # print(grpid)
                                 addonscodelist.append({'grpId':grpid,'grpName':grpname,'maxAddons':maxaddons,'minAddons':minaddons,'addons':[]})
                                 choices=addon.get('choices')
                                 if choices is not None and len(choices)>0:
@@ -102,11 +94,11 @@ def addons(restid,dishid,opt1,opt2):
                                         choiceid=choice.get('id')
                                         for addoncombo in addoncombos:
                                             if(addoncombo.get('groupId')==grpid and addoncombo.get('addonId')==choiceid):
-                                                newc=choice
-                                                theprice=newc.get('price')
-                                                if(theprice==None): theprice=0
-                                                else: theprice=int(int(theprice)/100)
-                                                newc['price']=theprice
+                                                # newc=choice
+                                                # theprice=newc.get('price')
+                                                # if(theprice==None): theprice=0
+                                                # else: theprice=int(int(theprice)/100)
+                                                # newc['price']=theprice
                                                 addonscodelist[-1]['addons'].append(choice)
 
             if(len(pricingmodels[0].get('variations'))==1):
@@ -128,11 +120,11 @@ def addons(restid,dishid,opt1,opt2):
                                         choiceid=choice.get('id')
                                         for addoncombo in addoncombos:
                                             if(addoncombo.get('groupId')==grpid and addoncombo.get('addonId')==choiceid):
-                                                newc=choice
-                                                theprice=newc.get('price')
-                                                if(theprice==None): theprice=0
-                                                else: theprice=int(int(theprice)/100)
-                                                newc['price']=theprice
+                                                # newc=choice
+                                                # theprice=newc.get('price')
+                                                # if(theprice==None): theprice=0
+                                                # else: theprice=int(int(theprice)/100)
+                                                # newc['price']=theprice
                                                 addonscodelist[-1]['addons'].append(choice)
         print(addonscodelist)
         return addonscodelist               
