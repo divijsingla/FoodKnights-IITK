@@ -20,14 +20,14 @@ class Order(Base):
     __tablename__ = 'orders'
 
     orderid = Column(Integer, primary_key=True, autoincrement=True)
-    user = Column(String)
+    username = Column(String)
     restaurant_id = Column(Integer)
     dishes=Column(ARRAY(String))
     price=Column(Integer)
     
-    def __init__(self, orderid, user,restaurant_id,dishes,price):
+    def __init__(self, username,restaurant_id,dishes,price):
         self.orderid = orderid
-        self.user=user
+        self.username=username
         self.restaurant_id = restaurant_id
         self.dishes=dishes
         self.price=price
@@ -162,7 +162,7 @@ def save_data():
     
     # do something with the data
     price=data['finalprice']
-    order = Order(0,user,int(restid),dishlist,int(price))
+    order = Order(user,int(restid),dishlist,float(price))
     session.add(order)
     session.commit()
     return 'Data added to database'

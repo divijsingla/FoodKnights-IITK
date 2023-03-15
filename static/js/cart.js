@@ -68,7 +68,7 @@ checkout.addEventListener('click',()=>{
         checkout.innerText='Minimum Order value is 150'
     } 
     else{
-        localStorage.setItem('totprice',parseFloat(parseFloat(finaleprice)*1.05).toFixed(2))
+        localStorage.setItem('totprice',parseFloat(finaleprice).toFixed(2))
     }
 })
 

@@ -106,3 +106,10 @@ searchInput.addEventListener('input', function(event) {
   // Set a new timeout for 500 milliseconds
   timeoutId = setTimeout(handleSearchQuery, 500);
 });
+
+function replaceImage(image) {
+    image.onerror = null; // remove the onerror event to avoid an infinite loop
+    image.src = "https://cdn.discordapp.com/attachments/1060989317180301363/1085202759583801344/da8377c5-15bd-4625-b3b2-5d2c3f03c494.jpg"; // replace the image source with a new image
+    image.style.width=508
+    image.style.height=320
+}

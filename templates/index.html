@@ -49,12 +49,17 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Masthead Subheading-->
-                <p class="masthead-subheading font-weight-light mb-0">Order Online- Get it Delivered- Enjoy</p>
+                <p class="masthead-subheading font-weight-light mb-0">By IIT Kanpur Students</p>
             </div>
         </header>
         <!-- Portfolio Section-->
+        <div class="row justify-content-center">
+            <input type="text" id="search" class="btn my-5" data-toggle="modal" data-target="#exampleModal" placeholder="Search your favourite Restaurants or Dishes" autocomplete="off">                
+        </div>
+        
         <section class="page-section portfolio" id="portfolio">
-            <div class="container">
+
+            <div class="container ">
                 <!-- Portfolio Section Heading-->
                 <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Top Restaurants</h2>
                 <!-- Icon Divider-->
@@ -65,7 +70,6 @@
                 </div>
                 <!-- Portfolio Grid Items-->
                 <div class="row justify-content-center">
-                    <input type="text" id="search" class="btn my-5" data-toggle="modal" data-target="#exampleModal" placeholder="Search your favourite Restaurants or Dishes" autocomplete="off">
                    
 
     
@@ -81,7 +85,7 @@
             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                 <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
             </div>
-            <img class="img-fluid" src= {{ rest.cloudinary }} alt="..." />
+            <img class="img-fluid" src= {{ rest.cloudinary }} onerror="replaceImage(this)" alt="..." />
             {{rest.name}}
         </div>
     </div>
@@ -119,8 +123,7 @@
                     <div class="col-lg-4">
                         <h4 class="text-uppercase mb-4">About FoodKnights</h4>
                         <p class="lead mb-0">
-                            FoodKnights is a food ordering service developed by IITK Students for ordering food at night
-                            .
+                            FoodKnights is developed by IITK Students for ordering food at night
                         </p>
                     </div>
                 </div>
@@ -130,6 +133,7 @@
         <div class="copyright py-4 text-center text-white">
             <div class="container"><small>Copyright &copy; FoodKnights 2023</small></div>
         </div>
+        
         
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

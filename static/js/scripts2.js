@@ -8,7 +8,7 @@ delCartButtons.forEach((button)=>{
       let addbutton = parent.querySelector('a')
 
       let obj=JSON.parse(localStorage.getItem(addbutton.dataset.id))
-      let curqty = obj.quantity
+      let curqty = obj.quantity[0]
       if(parseInt(curqty)==1) {
         addbutton.innerText='Add to Cart'
         parent.querySelector('span').innerText=''
@@ -17,8 +17,8 @@ delCartButtons.forEach((button)=>{
       }
       else {
 
-        obj.quantity=curqty-1;
-        parent.querySelector('span').innerText =`  ${obj.quantity}  `
+        obj.quantity[0]=curqty-1;
+        parent.querySelector('span').innerText =`  ${obj.quantity[0]}  `
         if(obj.opt1.length==0 && obj.opt2.length==0){
         }
         else{
@@ -488,3 +488,15 @@ const callback = function(mutationsList, observer) {
 const observer = new MutationObserver(callback);
 observer.observe(mainlist, config);
 
+const stickycart=document.getElementById('stickycart')
+stickycart.addEventListener('click',()=>{
+  window.location.href='/cart'
+})
+
+
+function replaceImage(image) {
+  image.onerror = null; // remove the onerror event to avoid an infinite loop
+  image.src = "https://media.discordapp.net/attachments/1060989317180301363/1085273513067298827/d5142e80-de9b-4477-bbc1-7c5dbaeb3d22.jpg?width=1026&height=1026"; // replace the image source with a new image
+  image.style.width=508
+  image.style.height=320
+}
